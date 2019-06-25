@@ -1,11 +1,13 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { TimeSliderPickerComponent } from './time-slider-picker.component';
+export interface TimeSliderPickerConfig {
+  timeInterval: TSPTimeInterval;
+}
 
-@NgModule({
-  declarations: [TimeSliderPickerComponent],
-  imports: [ CommonModule ],
-  exports: [TimeSliderPickerComponent],
-  providers: [],
-})
-export class TimeSliderPickerModule {}
+export interface TSPTimeKeys {
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+export interface TSPTimeInterval {
+  startTime: TSPTimeKeys;
+  endTime: TSPTimeKeys;
+}
