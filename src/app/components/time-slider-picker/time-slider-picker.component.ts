@@ -7,7 +7,7 @@ import {
 } from "@angular/forms";
 import * as moment from "moment";
 
-import { TSPTimeInterval } from "./time-slider-picker.model";
+import { TSPTimeInterval, TimeSliderPickerConfig } from "./time-slider-picker.model";
 
 @Component({
   selector: "time-slider-picker",
@@ -26,7 +26,7 @@ import { TSPTimeInterval } from "./time-slider-picker.model";
     }
   ]
 })
-export class TimeSliderPickerComponent<TimeSliderPickerConfig>
+export class TimeSliderPickerComponent
   implements OnInit, ControlValueAccessor, Validators, OnDestroy {
   isDisabled: boolean;
   timeInterval: TSPTimeInterval;
@@ -37,7 +37,9 @@ export class TimeSliderPickerComponent<TimeSliderPickerConfig>
     margin?: string;
   };
 
-  @Input() set config(config: TimeSliderPickerConfig) {}
+  @Input() set config(config: TimeSliderPickerConfig) {
+    this.timeInterval = config.timeInterval;
+  }
 
   onChange: (_: any) => {};
 
