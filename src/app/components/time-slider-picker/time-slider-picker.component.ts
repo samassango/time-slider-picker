@@ -31,6 +31,11 @@ export class TimeSliderPickerComponent<TimeSliderPickerConfig>
   isDisabled: boolean;
   timeInterval: TSPTimeInterval;
   timeIntervalList: string[];
+  styleMouseOver: {
+    width?: string;
+    backgroundColor?: string;
+    margin?: string;
+  };
 
   @Input() set config(config: TimeSliderPickerConfig) {}
 
@@ -64,7 +69,14 @@ export class TimeSliderPickerComponent<TimeSliderPickerConfig>
     };
 
     this.timeIntervalList = this.covertTimeIntervalToTimeList();
-    console.log('timeIntervalList', this.timeIntervalList);
+    console.log("timeIntervalList", this.timeIntervalList);
+  }
+  selectedTime(item: string, i: number) {
+    console.log(item);
+   // this.onChange(item);
+  }
+  mouseOverEventHandler(i) {
+    this.styleMouseOver = { backgroundColor: '#cebd24' };
   }
   covertTimeIntervalToTimeList() {
     const newTimeInterval = [];
@@ -75,10 +87,14 @@ export class TimeSliderPickerComponent<TimeSliderPickerConfig>
     while (
       nextTime.hour() <= this.timeInterval.endTime.hours
       // && nextTime.minute() <= this.timeInterval.endTime.minutes
-    ){
-      newTimeInterval.push(moment(nextTime).format(moment.HTML5_FMT.TIME).toString());
+    ) {
+      newTimeInterval.push(
+        moment(nextTime)
+          .format(moment.HTML5_FMT.TIME)
+          .toString()
+      );
       nextTime = moment(nextTime).add(stepByInterval, 'minutes');
-      console.log('nextTime', nextTime);
+      console.log("nextTime", nextTime);
     }
     return newTimeInterval;
   }
