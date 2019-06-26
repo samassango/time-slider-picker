@@ -10,4 +10,5 @@ export interface TSPTimeKeys {
 export interface TSPTimeInterval {
   startTime: TSPTimeKeys;
   endTime: TSPTimeKeys;
+  stepBy:number;
 }
