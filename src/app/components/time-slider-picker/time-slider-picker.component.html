@@ -1,4 +1,6 @@
+
 <div class="scrolling-wrapper">
+    <div class="overlay">
   <div
     class="card"
     [style]="styleMouseOver"
@@ -6,6 +8,7 @@
     (mouseover)="mouseOverEventHandler(i)"
     (click)="selectedTime(item, i)"
   >
-    <h2>{{ item }}</h2>
+    <h2>{{ item.time }}</h2>
+  </div>
   </div>
 </div>

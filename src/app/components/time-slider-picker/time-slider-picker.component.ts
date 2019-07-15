@@ -7,7 +7,7 @@ import {
 } from "@angular/forms";
 import * as moment from "moment";
 
-import { TSPTimeInterval, TimeSliderPickerConfig } from "./time-slider-picker.model";
+import { TSPTimeInterval, TimeSliderPickerConfig, TimeModel } from "./time-slider-picker.model";
 
 @Component({
   selector: "time-slider-picker",
@@ -30,7 +30,7 @@ export class TimeSliderPickerComponent
   implements OnInit, ControlValueAccessor, Validators, OnDestroy {
   isDisabled: boolean;
   timeInterval: TSPTimeInterval;
-  timeIntervalList: string[];
+  timeIntervalList: TimeModel[];
   styleMouseOver: {
     width?: string;
     backgroundColor?: string;
@@ -67,14 +67,22 @@ export class TimeSliderPickerComponent
     this.timeInterval = {
       startTime: { hours: 7, minutes: 0, seconds: 0 },
       endTime: { hours: 17, minutes: 30, seconds: 0 },
-      stepBy: 30
+      stepBy: 15
     };
 
-    this.timeIntervalList = this.covertTimeIntervalToTimeList();
-    console.log("timeIntervalList", this.timeIntervalList);
+    this.timeIntervalList = this.covertTimeIntervalToTimeList2();
+    console.log("timeIntervalList", this.covertTimeIntervalToTimeList2());
   }
-  selectedTime(item: string, i: number) {
+  selectedTime(item: TimeModel, i: number) {
     console.log(item);
+    this.timeIntervalList.forEach((time: TimeModel) => {
+      if (time.time === item.time) {
+         time.selectedTime = true;
+      } else {
+        time.selectedTime = false;
+      }
+    })
+    console.log(this.timeIntervalList);
    // this.onChange(item);
   }
   mouseOverEventHandler(i) {
@@ -100,4 +108,26 @@ export class TimeSliderPickerComponent
     }
     return newTimeInterval;
   }
+
+  covertTimeIntervalToTimeList2() {
+    const newTimeInterval= [];
+    const startTimeInterval = moment(this.timeInterval.startTime);
+    // const endTimeInterval = moment(this.timeInterval.endTime);
+    const stepByInterval = this.timeInterval.stepBy;
+    let nextTime = moment(startTimeInterval);
+    while (
+      nextTime.hour() <= this.timeInterval.endTime.hours
+      // && nextTime.minute() <= this.timeInterval.endTime.minutes
+    ) {
+      newTimeInterval.push(new TimeModel(
+        moment(nextTime)
+          .format(moment.HTML5_FMT.TIME)
+          .toString(), false, false)
+      );
+      nextTime = moment(nextTime).add(stepByInterval, 'minutes');
+      console.log("nextTime", nextTime);
+    }
+    return newTimeInterval;
+  }
+
 }
